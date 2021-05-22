@@ -36,4 +36,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * Recipeモデルとの関係を定義
+     */
+     public function recipes()
+     {
+         return $this->hasMany(Recipe::class);
+     }
+     
+     public function liadRelationshipCounts()
+     {
+         $this->loadCount('recipes');
+     }
 }
