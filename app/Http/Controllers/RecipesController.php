@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class RecipesController extends Controller
+class RecipeController extends Controller
 {
     public function index()
     {
@@ -21,18 +21,27 @@ class RecipesController extends Controller
         return view('welcome', $data);
     }
     
+    public function create()
+    {
+        $recipes = new Recipe;
+        
+        return view('recipes.create', [
+            'recipe' =>$recipe,
+            ]);
+    }
+    
     public function store(Request $request)
     {
-        $recipe = new Recipe();
-        
-        $recipe->title = $request->title;
-        $recipe->child_age = $request->child_age;
-        $recipe->description = $request->description;
-        $recipe->material = $request->material;
-        $recipe->how_to_make = $request->how_to_make;
-        $recipe->recipe_image = $request->recipe_image;
-        $recipe->user_id = Auth::user()->id;
-        $recipe->save();
+        $request->user()->recipes()->create([
+            
+        $recipe->title = $request->title,
+        $recipe->child_age = $request->child_age,
+        $recipe->description = $request->description,
+        $recipe->material = $request->material,
+        $recipe->how_to_make = $request->how_to_make,
+        $recipe->recipe_image = $request->recipe_image,
+        $recipe->user_id = Auth::user()->id,
+        ]);
         
         return back();
     }
